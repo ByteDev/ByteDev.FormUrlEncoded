@@ -6,9 +6,7 @@
 
 .NET Standard library for serializing and deserializing form URL encoded (`application/x-www-form-urlencoded`) data.
 
-The form URL encoded format is a data format that encodes data as name-value pairs. 
-It is most associated with web HTML forms the visible web. However, it can also be used in other situations, for example as a form of data exchange by APIs.
-The library allows a consumer to serailize/deserialize data in the format without being tied to a web application environment such as ASP.NET.
+The form URL encoded format is a data format that encodes data as name-value pairs. It is most associated with web HTML forms and the visible web. However, it can also be used in other situations, for example as a form of data exchange by APIs. This library allows a consumer to serailize/deserialize data in the format without being tied to a web application environment such as ASP.NET.
 
 ## Installation
 
