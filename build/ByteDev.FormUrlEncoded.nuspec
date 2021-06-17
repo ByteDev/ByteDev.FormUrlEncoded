@@ -9,7 +9,7 @@
     <copyright>Copyright 2021</copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET Standard library for serializing and deserializing form URL encoded data.</description>
-    <tags>formurlencoded form url encoded encoding http data</tags>
+    <tags>formurlencoded serializer serialization form url encoded encoding http data</tags>
     <projectUrl>https://github.com/ByteDev/ByteDev.FormUrlEncoded</projectUrl>
     <icon>images\icon.png</icon>
     <license type="file">LICENSE</license>
