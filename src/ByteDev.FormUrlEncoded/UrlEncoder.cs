@@ -2,7 +2,7 @@
 
 namespace ByteDev.FormUrlEncoded
 {
-    internal static class UriEncoder
+    internal static class UrlEncoder
     {
         public static string Encode(string value, SerializeOptions options)
         {

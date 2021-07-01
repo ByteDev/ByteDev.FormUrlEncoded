@@ -9,9 +9,9 @@ namespace ByteDev.FormUrlEncoded
             if (source.Length > 0)
                 source.Append('&');
 
-            source.Append(UriEncoder.Encode(key, options));
+            source.Append(UrlEncoder.Encode(key, options));
             source.Append("=");
-            source.Append(UriEncoder.Encode(value, options));
+            source.Append(UrlEncoder.Encode(value, options));
         }
     }
 }
