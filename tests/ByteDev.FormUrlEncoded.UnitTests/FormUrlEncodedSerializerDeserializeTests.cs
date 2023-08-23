@@ -296,9 +296,19 @@ namespace ByteDev.FormUrlEncoded.UnitTests
 
                 var result = FormUrlEncodedSerializer.Deserialize<TestDummyList>(data);
 
-                Assert.That(result.Items.Count(), Is.EqualTo(2));
+                Assert.That(result.Items.Count, Is.EqualTo(2));
                 Assert.That(result.Items.First(), Is.EqualTo("John"));
                 Assert.That(result.Items.Second(), Is.EqualTo("Peter"));
+            }
+
+            [Test]
+            public void WhenPropertyIsList_AndHasTwoSameNameValues_ThenSetSequenceToLast()
+            {
+                const string data = "Items=John&Items=Peter";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyList>(data);
+
+                Assert.That(result.Items.Single(), Is.EqualTo("Peter"));
             }
         }
 
