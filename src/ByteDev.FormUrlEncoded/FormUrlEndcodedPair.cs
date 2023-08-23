@@ -14,6 +14,8 @@
 
         public string Value => _value ?? (_value = UrlEncoder.Decode(_pairArray[1], _options));
 
+        public bool HasName => !string.IsNullOrEmpty(Name);
+
         public FormUrlEndcodedPair(string pair, DeserializeOptions options)
         {
             _pairArray = pair.Split('=');

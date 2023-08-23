@@ -166,7 +166,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
             [Test]
             public void WhenPropertyIsEnumerable_AndIsNull_ThenReturnEmpty()
             {
-                var obj = new TestDummyEnumerable { Items = null };
+                var obj = new TestDummyList { Items = null };
 
                 var result = FormUrlEncodedSerializer.Serialize(obj);
 
@@ -176,7 +176,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
             [Test]
             public void WhenPropertyIsEnumerable_AndIsEmpty_ThenReturnEmptyValue()
             {
-                var obj = new TestDummyEnumerable { Items = new List<string>() };
+                var obj = new TestDummyList { Items = new List<string>() };
 
                 var result = FormUrlEncodedSerializer.Serialize(obj);
 
@@ -184,9 +184,9 @@ namespace ByteDev.FormUrlEncoded.UnitTests
             }
 
             [Test]
-            public void WhenPropertyIsEnumerable_AndHasSingleValues_ThenReturnSerializedString()
+            public void WhenPropertyIsEnumerable_AndHasOneValue_ThenReturnSerializedString()
             {
-                var obj = new TestDummyEnumerable { Items = new[] { "John" } };
+                var obj = new TestDummyList { Items = new List<string> { "John" } };
 
                 var result = FormUrlEncodedSerializer.Serialize(obj);
 
@@ -196,7 +196,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
             [Test]
             public void WhenPropertyIsEnumerable_AndHasTwoValues_ThenReturnSerializedString()
             {
-                var obj = new TestDummyEnumerable { Items = new[] { "John", "Peter" } };
+                var obj = new TestDummyList { Items = new List<string> { "John", "Peter" } };
 
                 var result = FormUrlEncodedSerializer.Serialize(obj);
 
@@ -299,7 +299,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Serialize_Options_IgnoreIfNull : FormUrlEncodedSerializerSerializeTests
+        public class Serialize_Options_IgnoreIfNull
         {
             [Test]
             public void WhenIgnoreIfNullIsTrue_ThenDoNotSerializeNullProperties()
@@ -329,7 +329,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Serialize_Options_IgnoreIfDefault : FormUrlEncodedSerializerSerializeTests
+        public class Serialize_Options_IgnoreIfDefault
         {
             [Test]
             public void WhenIgnoreIfDefaultIsTrue_ThenDoNotSerializeDefaultProperties()
@@ -360,7 +360,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Serialize_Options_EnumType : FormUrlEncodedSerializerSerializeTests
+        public class Serialize_Options_EnumType
         {
             [Test]
             public void WhenHandlingEnumByName_ThenUseName()
@@ -450,7 +450,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Serialize_IgnoreAttribute : FormUrlEncodedSerializerSerializeTests
+        public class Serialize_IgnoreAttribute
         {
             [Test]
             public void WhenIgnoreAttributeUsed_ThenIgnoreProperty()

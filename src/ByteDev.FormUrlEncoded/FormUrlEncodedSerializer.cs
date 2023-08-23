@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -72,7 +73,7 @@ namespace ByteDev.FormUrlEncoded
                         propertyValue = GetEnumNumberFromName(propertyValue);
                     }
 
-                    if (propertyInfo.IsTypeEnumerableAndNotString())
+                    if (propertyInfo.IsTypeList())
                     {
                         var sequence = propertyValue as IEnumerable;
 
@@ -125,23 +126,30 @@ namespace ByteDev.FormUrlEncoded
 
             var propertiesWithAttr = typeof(T).GetPropertiesWithAttribute<FormUrlEncodedPropertyNameAttribute>().ToList();
 
-            foreach (var strPair in strPairs)
+            foreach (string strPair in strPairs)
             {
                 var pair = new FormUrlEndcodedPair(strPair, options);
 
                 if (!pair.IsValid)
                     continue;
 
-                var attrProperty = propertiesWithAttr.SingleOrDefault(p => p.GetAttributeName() == pair.Name);
+                PropertyInfo attrProperty = propertiesWithAttr.GetByAttributeName(pair.Name);
                 
                 if (attrProperty == null)
                 {
-                    var property = typeof(T).GetProperty(pair.Name);
+                    var propertyInfo = typeof(T).GetProperty(pair.Name);
 
-                    if (property == null || property.HasIgnoreAttribute())
+                    if (propertyInfo == null || propertyInfo.HasIgnoreAttribute())
                         continue;
 
-                    obj.SetPropertyValue(pair.Name, pair.Value);
+                    if (propertyInfo.IsTypeList())
+                    {
+                        obj.SetPropertyValue(pair.Name, pair.Value.ToList(','));
+                    }
+                    else
+                    {
+                        obj.SetPropertyValue(pair.Name, pair.Value);
+                    }
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Data;
+using System.Linq;
+using ByteDev.Collections;
 using ByteDev.FormUrlEncoded.UnitTests.TestObjects;
 using ByteDev.FormUrlEncoded.UnitTests.TestObjects.AttributeObjects;
 using NUnit.Framework;
@@ -10,7 +11,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
     public class FormUrlEncodedSerializerDeserializeTests
     {
         [TestFixture]
-        public class Deserialize : FormUrlEncodedSerializerDeserializeTests
+        public class Deserialize
         {
             [Test]
             public void WhenDataIsNull_ThenThrowException()
@@ -256,7 +257,53 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Deserialize_Options_Decode : FormUrlEncodedSerializerDeserializeTests
+        public class Deserialize_PropertySequences
+        {
+            [Test]
+            public void WhenPropertyIsList_AndNameNotExist_ThenSetNull()
+            {
+                const string data = "Name=John";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyList>(data);
+
+                Assert.That(result.Items, Is.Null);
+            }
+
+            [Test]
+            public void WhenPropertyIsList_AndValueIsEmpty_ThenSetNull()
+            {
+                const string data = "Items=";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyList>(data);
+
+                Assert.That(result.Items, Is.Null);
+            }
+
+            [Test]
+            public void WhenPropertyIsList_AndHasOneValue_ThenSetSequence()
+            {
+                const string data = "Items=John";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyList>(data);
+
+                Assert.That(result.Items.Single(), Is.EqualTo("John"));
+            }
+
+            [Test]
+            public void WhenPropertyIsList_AndHasTwoValues_ThenSetSequence()
+            {
+                const string data = "Items=John,Peter";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyList>(data);
+
+                Assert.That(result.Items.Count(), Is.EqualTo(2));
+                Assert.That(result.Items.First(), Is.EqualTo("John"));
+                Assert.That(result.Items.Second(), Is.EqualTo("Peter"));
+            }
+        }
+
+        [TestFixture]
+        public class Deserialize_Options_Decode
         {
             [Test]
             public void WhenDecodeIsTrue_AndDecodePlusAsSpaceIsFalse_ThenReturnString()
@@ -350,7 +397,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Deserialize_Options_EnumType : FormUrlEncodedSerializerSerializeTests
+        public class Deserialize_Options_EnumType
         {
             [Test]
             public void WhenHandlingEnumByName_ThenUseName()
@@ -404,7 +451,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Deserialize_PropertyNameAttribute : FormUrlEncodedSerializerDeserializeTests
+        public class Deserialize_PropertyNameAttribute
         {
             [Test]
             public void WhenUsesAttribute_ThenTakeNameFromAttribute()
@@ -439,7 +486,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
         }
 
         [TestFixture]
-        public class Deserialize_IgnoreAttribute : FormUrlEncodedSerializerDeserializeTests
+        public class Deserialize_IgnoreAttribute
         {
             [Test]
             public void WhenIgnoreAttributeUsed_ThenIgnoreProperty()

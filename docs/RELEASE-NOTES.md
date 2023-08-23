@@ -1,12 +1,13 @@
 # Release Notes
 
-## 1.1.0 - 23 August 2023
+## 1.1.0 - ???
 
 Breaking changes:
 - (None)
 
 New features:
-- Add handling of `IEnumerable` types in `FormUrlEncodedSerializer.Serialize` method.
+- Add handling of `List` property types to strings in `FormUrlEncodedSerializer.Serialize` method.
+- Add handling of string collections to `List` property types in `FormUrlEncodedSerializer.Deserialize` method.
 
 Bug fixes / internal changes:
 - (None)

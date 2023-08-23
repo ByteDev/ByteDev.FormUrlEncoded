@@ -2,8 +2,8 @@
 
 namespace ByteDev.FormUrlEncoded.UnitTests.TestObjects
 {
-    internal class TestDummyEnumerable
+    internal class TestDummyList
     {
-        public IEnumerable<string> Items { get; set; }
+        public List<string> Items { get; set; }
     }
 }
