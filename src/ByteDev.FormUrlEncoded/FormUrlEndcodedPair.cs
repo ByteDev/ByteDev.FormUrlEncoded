@@ -1,23 +1,31 @@
-﻿namespace ByteDev.FormUrlEncoded
+﻿using System.Collections.Generic;
+using System.Reflection;
+
+namespace ByteDev.FormUrlEncoded
 {
     internal class FormUrlEndcodedPair
     {
-        private readonly string[] _pairArray;
-        private readonly DeserializeOptions _options;
+        public string Name { get; }
 
-        private string _name;
-        private string _value;
-        
-        public bool IsValid => _pairArray.Length == 2 && _pairArray[1] != string.Empty;
+        public string Value { get; }
 
-        public string Name => _name ?? (_name = UrlEncoder.Decode(_pairArray[0], _options));
+        public bool HasValue => Value != string.Empty;
 
-        public string Value => _value ?? (_value = UrlEncoder.Decode(_pairArray[1], _options));
-
-        public FormUrlEndcodedPair(string pair, DeserializeOptions options)
+        public FormUrlEndcodedPair(string pair, DeserializeOptions options, List<PropertyInfo> propertiesWithAttr)
         {
-            _pairArray = pair.Split('=');
-            _options = options;
+            var pairArray = pair.Split('=');
+
+            PropertyInfo attrProperty = propertiesWithAttr.GetByAttributeName(pairArray[0]);
+
+            if (attrProperty == null)
+                Name = UrlEncoder.Decode(pairArray[0], options);
+            else
+                Name = attrProperty.Name;
+
+            if (pairArray.Length == 2)
+                Value = UrlEncoder.Decode(pairArray[1], options);
+            else
+                Value = string.Empty;
         }
     }
 }

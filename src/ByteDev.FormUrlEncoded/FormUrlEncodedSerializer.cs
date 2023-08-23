@@ -124,41 +124,24 @@ namespace ByteDev.FormUrlEncoded
 
             var obj = new T();
 
-            var propertiesWithAttr = typeof(T).GetPropertiesWithAttribute<FormUrlEncodedPropertyNameAttribute>().ToList();
+            List<PropertyInfo> propertiesWithAttr = typeof(T).GetPropertiesWithAttribute<FormUrlEncodedPropertyNameAttribute>().ToList();
 
             foreach (string strPair in strPairs)
             {
-                var pair = new FormUrlEndcodedPair(strPair, options);
+                var pair = new FormUrlEndcodedPair(strPair, options, propertiesWithAttr);
 
-                if (!pair.IsValid)
+                if (!pair.HasValue)
                     continue;
 
-                PropertyInfo attrProperty = propertiesWithAttr.GetByAttributeName(pair.Name);
-                
-                if (attrProperty == null)
-                {
-                    var propertyInfo = typeof(T).GetProperty(pair.Name);
+                var propertyInfo = typeof(T).GetProperty(pair.Name);
 
-                    if (propertyInfo == null || propertyInfo.HasIgnoreAttribute())
-                        continue;
+                if (propertyInfo == null || propertyInfo.HasIgnoreAttribute())
+                    continue;
 
-                    if (propertyInfo.IsTypeList())
-                    {
-                        obj.SetPropertyValue(pair.Name, pair.Value.ToList(','));
-                    }
-                    else
-                    {
-                        obj.SetPropertyValue(pair.Name, pair.Value);
-                    }
-                }
+                if (propertyInfo.IsTypeList())
+                    obj.SetPropertyValue(pair.Name, pair.Value.ToList(','));
                 else
-                {
-                    // Property has FormUrlEncodedPropertyNameAttribute
-                    if (typeof(T).GetProperty(attrProperty.Name).HasIgnoreAttribute())
-                        continue;
-
-                    obj.SetPropertyValue(attrProperty.Name, pair.Value);
-                }
+                    obj.SetPropertyValue(pair.Name, pair.Value);
             }
 
             return obj;

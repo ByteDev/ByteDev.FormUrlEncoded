@@ -1,4 +1,6 @@
-﻿namespace ByteDev.FormUrlEncoded.UnitTests.TestObjects.AttributeObjects
+﻿using System.Collections.Generic;
+
+namespace ByteDev.FormUrlEncoded.UnitTests.TestObjects.AttributeObjects
 {
     internal class TestDummyPropertyNameAttribute
     {
@@ -6,17 +8,8 @@
 
         [FormUrlEncodedPropertyName("emailAddress")]
         public string Email { get; set; }
-    }
 
-    internal class TestDummyPropertyNameAttributeNull
-    {
-        [FormUrlEncodedPropertyName(null)]
-        public string Email { get; set; }
-    }
-
-    internal class TestDummyPropertyNameAttributeEmpty
-    {
-        [FormUrlEncodedPropertyName("")]
-        public string Email { get; set; }
+        [FormUrlEncodedPropertyName("list")]
+        public List<string> Items { get; set; }
     }
 }

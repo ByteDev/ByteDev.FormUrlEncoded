@@ -302,13 +302,25 @@ namespace ByteDev.FormUrlEncoded.UnitTests
             }
 
             [Test]
-            public void WhenPropertyIsList_AndHasTwoSameNameValues_ThenSetSequenceToLast()
+            public void WhenPropertyIsList_AndHasTwoSameNameValues_ThenSetSequenceToLastOnly()
             {
                 const string data = "Items=John&Items=Peter";
 
                 var result = FormUrlEncodedSerializer.Deserialize<TestDummyList>(data);
 
                 Assert.That(result.Items.Single(), Is.EqualTo("Peter"));
+            }
+
+            [Test]
+            public void WhenPropertyIsList_AndHasTwoValues_AndUsesNameAttribute_ThenSetSequence()
+            {
+                const string data = "list=John,Peter";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyPropertyNameAttribute>(data);
+
+                Assert.That(result.Items.Count, Is.EqualTo(2));
+                Assert.That(result.Items.First(), Is.EqualTo("John"));
+                Assert.That(result.Items.Second(), Is.EqualTo("Peter"));
             }
         }
 
