@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -42,19 +43,19 @@ namespace ByteDev.FormUrlEncoded
 
             var properties = obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
-            foreach (var property in properties)
+            foreach (PropertyInfo propertyInfo in properties)
             {
-                if (property.HasIgnoreAttribute())
+                if (propertyInfo.HasIgnoreAttribute())
                     continue;
 
-                object propertyValue = property.GetValue(obj);
+                object propertyValue = propertyInfo.GetValue(obj);
 
                 if (propertyValue == null)
                 {
                     if (options.IgnoreIfDefault || options.IgnoreIfNull)
                         continue;
 
-                    sb.AppendKeyValue(property.GetAttributeOrPropertyName(), string.Empty, options);
+                    sb.AppendKeyValue(propertyInfo.GetAttributeOrPropertyName(), string.Empty, options);
                 }
                 else
                 {
@@ -66,12 +67,21 @@ namespace ByteDev.FormUrlEncoded
                             continue;
                     }
 
-                    if (options.EnumHandling == EnumHandling.Number && property.PropertyType.IsEnum)
+                    if (options.EnumHandling == EnumHandling.Number && propertyInfo.PropertyType.IsEnum)
                     {
                         propertyValue = GetEnumNumberFromName(propertyValue);
                     }
 
-                    sb.AppendKeyValue(property.GetAttributeOrPropertyName(), propertyValue.ToString(), options);
+                    if (propertyInfo.IsTypeEnumerableAndNotString())
+                    {
+                        var sequence = propertyValue as IEnumerable;
+
+                        sb.AppendKeySequenceValue(propertyInfo.GetAttributeOrPropertyName(), sequence.ToCsv(), options);
+                    }
+                    else
+                    {
+                        sb.AppendKeyValue(propertyInfo.GetAttributeOrPropertyName(), propertyValue.ToString(), options);
+                    }
                 }
             }
 
@@ -96,7 +106,7 @@ namespace ByteDev.FormUrlEncoded
         /// </summary>
         /// <typeparam name="T">Type of object to deserialize to.</typeparam>
         /// <param name="formUrlEncodedData">Form URL encoded string to deserialize.</param>
-        /// <param name="options">Deserialize options. If null defaults will be used.</param>
+        /// <param name="options">Deserialize options.</param>
         /// <returns>Object of type <typeparamref name="T" />.</returns>
         /// <exception cref="T:System.ArgumentException"><paramref name="formUrlEncodedData" /> is null or empty.</exception>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="options" /> is null.</exception>

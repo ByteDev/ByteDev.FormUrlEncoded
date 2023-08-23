@@ -3,7 +3,7 @@
 namespace ByteDev.FormUrlEncoded
 {
     /// <summary>
-    /// Represents an attributes that specifies the property name that is present in the form URL encoded data
+    /// Represents an attribute that specifies the property name that is present in the form URL encoded data
     /// when serializing and deserializing.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]

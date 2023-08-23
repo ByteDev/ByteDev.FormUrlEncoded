@@ -18,13 +18,13 @@
         public bool EncodeSpaceAsPlus { get; set; } = true;
 
         /// <summary>
-        /// Indicates if a property should be ignored if it is set to null.
+        /// Indicates if properties should be ignored if set to null.
         /// True by default. If property IgnoreIfDefault is set to true this property is ignored.
         /// </summary>
         public bool IgnoreIfNull { get; set; } = true;
 
         /// <summary>
-        /// Indicates if a property should be ignored if it is set to it's default value.
+        /// Indicates if properties should be ignored if set to their default value.
         /// False by default. If set to true property IgnoreIfNull's value is ignored.
         /// </summary>
         public bool IgnoreIfDefault { get; set; } = false;

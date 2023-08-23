@@ -4,7 +4,7 @@ namespace ByteDev.FormUrlEncoded
 {
     internal static class UrlEncoder
     {
-        public static string Encode(string value, SerializeOptions options)
+        public static string Encode(string value, SerializeOptions options, bool escapeComma = true)
         {
             if (string.IsNullOrEmpty(value))
                 return string.Empty;
@@ -13,6 +13,11 @@ namespace ByteDev.FormUrlEncoded
                 return value;
 
             var escapedValue = Uri.EscapeDataString(value);
+
+            if (!escapeComma)
+            {
+                escapedValue = escapedValue.Replace("%2C", ","); // Commas are valid in sequence values
+            }
 
             if (options.EncodeSpaceAsPlus)
             {

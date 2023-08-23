@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ByteDev.FormUrlEncoded.UnitTests.TestObjects;
 using ByteDev.FormUrlEncoded.UnitTests.TestObjects.AttributeObjects;
 using NUnit.Framework;
@@ -111,7 +112,7 @@ namespace ByteDev.FormUrlEncoded.UnitTests
                     AnotherString = "AnotherTestString"
                 };
 
-                string expected = $"String={obj.String}&AnotherString=AnotherTestString";
+                string expected = $"String=TestString&AnotherString=AnotherTestString";
 
                 var result = FormUrlEncodedSerializer.Serialize(obj);
 
@@ -156,6 +157,50 @@ namespace ByteDev.FormUrlEncoded.UnitTests
                 var result = FormUrlEncodedSerializer.Serialize(obj);
 
                 Assert.That(result, Is.EqualTo("MyStruct=ThisIsMyStruct"));
+            }
+        }
+
+        [TestFixture]
+        public class Serialize_PropertySequences
+        {
+            [Test]
+            public void WhenPropertyIsEnumerable_AndIsNull_ThenReturnEmpty()
+            {
+                var obj = new TestDummyEnumerable { Items = null };
+
+                var result = FormUrlEncodedSerializer.Serialize(obj);
+
+                Assert.That(result, Is.Empty);
+            }
+
+            [Test]
+            public void WhenPropertyIsEnumerable_AndIsEmpty_ThenReturnEmptyValue()
+            {
+                var obj = new TestDummyEnumerable { Items = new List<string>() };
+
+                var result = FormUrlEncodedSerializer.Serialize(obj);
+
+                Assert.That(result, Is.EqualTo("Items="));
+            }
+
+            [Test]
+            public void WhenPropertyIsEnumerable_AndHasSingleValues_ThenReturnSerializedString()
+            {
+                var obj = new TestDummyEnumerable { Items = new[] { "John" } };
+
+                var result = FormUrlEncodedSerializer.Serialize(obj);
+
+                Assert.That(result, Is.EqualTo("Items=John"));
+            }
+
+            [Test]
+            public void WhenPropertyIsEnumerable_AndHasTwoValues_ThenReturnSerializedString()
+            {
+                var obj = new TestDummyEnumerable { Items = new[] { "John", "Peter" } };
+
+                var result = FormUrlEncodedSerializer.Serialize(obj);
+
+                Assert.That(result, Is.EqualTo("Items=John,Peter"));
             }
         }
 

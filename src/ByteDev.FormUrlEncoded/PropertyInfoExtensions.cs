@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using System.Reflection;
 using ByteDev.Reflection;
 
@@ -31,6 +32,11 @@ namespace ByteDev.FormUrlEncoded
         public static bool HasIgnoreAttribute(this PropertyInfo source)
         {
             return source.HasAttribute<FormUrlEncodedIgnoreAttribute>();
+        }
+
+        public static bool IsTypeEnumerableAndNotString(this PropertyInfo source)
+        {
+            return typeof(IEnumerable).IsAssignableFrom(source.PropertyType) && source.PropertyType != typeof(string);
         }
     }
 }
