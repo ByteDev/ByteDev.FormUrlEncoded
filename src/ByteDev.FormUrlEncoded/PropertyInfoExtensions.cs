@@ -34,6 +34,11 @@ namespace ByteDev.FormUrlEncoded
             return source.HasAttribute<FormUrlEncodedIgnoreAttribute>();
         }
 
+        public static bool HasValueConverterAttribute(this PropertyInfo source)
+        {
+            return source.HasAttribute<FormUrlEncodedValueConverterAttribute>();
+        }
+
         public static bool IsTypeList(this PropertyInfo source)
         {
             return typeof(IList).IsAssignableFrom(source.PropertyType);
