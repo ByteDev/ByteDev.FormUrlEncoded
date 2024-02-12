@@ -68,13 +68,11 @@ namespace ByteDev.FormUrlEncoded
                             continue;
                     }
 
-                    // todo: will StringEnum trip this?
                     if (options.EnumHandling == EnumHandling.Number && propertyInfo.PropertyType.IsEnum)
                     {
                         propertyValue = GetEnumNumberFromName(propertyValue);
                     }
 
-                    // if it has the ValueConverter attribute, then run that, set the value, and move on
                     if (propertyInfo.HasValueConverterAttribute())
                     {
                         var valueConverter = Attribute.GetCustomAttributes(propertyInfo, typeof(FormUrlEncodedValueConverterAttribute)).FirstOrDefault() as FormUrlEncodedValueConverterAttribute;
@@ -137,20 +135,16 @@ namespace ByteDev.FormUrlEncoded
 
             foreach (string strPair in strPairs)
             {
-                // decode the pair, if it's in the list of properties with PropertyName then rename it
                 var pair = new FormUrlEndcodedPair(strPair, options, propertiesWithAttr);
 
-                // if there's no value in the pair, move on
                 if (!pair.HasValue)
                     continue;
 
                 var propertyInfo = typeof(T).GetProperty(pair.Name);
 
-                // if the property has ignore, then move on
                 if (propertyInfo == null || propertyInfo.HasIgnoreAttribute())
                     continue;
 
-                // if it has the ValueConverter attribute, then run that, set the value, and move on
                 if (propertyInfo.HasValueConverterAttribute())
                 {                    
                     var valueConverter = Attribute.GetCustomAttributes(propertyInfo, typeof(FormUrlEncodedValueConverterAttribute)).FirstOrDefault() as FormUrlEncodedValueConverterAttribute;
@@ -174,8 +168,3 @@ namespace ByteDev.FormUrlEncoded
         }
     }
 }
-
-
-// NEXT STEPS:
-// Copy this DLL to the other project's directory (or reference, or whatever)
-// Test: Put attributes on the right property, and see what happens.
