@@ -20,13 +20,13 @@ namespace ByteDev.FormUrlEncoded
         /// </summary>
         /// <param name="value">The string value decoded from a FormUrlEncoded string to be converted to a custom type.</param>
         /// <returns>The converted property value.</returns>
-        public abstract object ConvertFromString(string input);
+        public abstract object ConvertFromString(string value);
 
         /// <summary>
         /// Converts the given <paramref name="value"/> from your POCO's property type to a plain string to be form URL encoded.
         /// </summary>
         /// <param name="value">The POCO value to be converted.</param>
         /// <returns>The converted property value.</returns>
-        public abstract string ConvertToString(object output);
+        public abstract string ConvertToString(object value);
     }
 }

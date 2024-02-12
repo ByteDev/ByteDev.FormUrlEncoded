@@ -76,7 +76,7 @@ namespace ByteDev.FormUrlEncoded
                     if (propertyInfo.HasValueConverterAttribute())
                     {
                         var valueConverter = Attribute.GetCustomAttributes(propertyInfo, typeof(FormUrlEncodedValueConverterAttribute)).FirstOrDefault() as FormUrlEncodedValueConverterAttribute;
-                        sb.AppendKeySequenceValue(propertyInfo.GetAttributeOrPropertyName(), valueConverter.ToString(propertyValue), options);
+                        sb.AppendKeySequenceValue(propertyInfo.GetAttributeOrPropertyName(), valueConverter.ConvertToString(propertyValue), options);
                         continue;
                     }
 
@@ -148,7 +148,7 @@ namespace ByteDev.FormUrlEncoded
                 if (propertyInfo.HasValueConverterAttribute())
                 {                    
                     var valueConverter = Attribute.GetCustomAttributes(propertyInfo, typeof(FormUrlEncodedValueConverterAttribute)).FirstOrDefault() as FormUrlEncodedValueConverterAttribute;
-                    obj.SetPropertyValue(pair.Name, valueConverter.FromString(pair.Value));
+                    obj.SetPropertyValue(pair.Name, valueConverter.ConvertFromString(pair.Value));
                     continue;
                 } 
 
