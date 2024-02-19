@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.1.0 - ?
+## 1.1.0 - 19 February 2024
 
 Breaking changes:
 - (None)
