@@ -13,6 +13,7 @@
     <projectUrl>https://github.com/ByteDev/ByteDev.FormUrlEncoded</projectUrl>
     <icon>images\icon.png</icon>
     <license type="file">LICENSE</license>
+    <readme>README.md</readme>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="ByteDev.Reflection" version="2.3.1" />
@@ -24,5 +25,6 @@
     <file src="..\src\ByteDev.FormUrlEncoded\bin\Release\netstandard2.0\ByteDev.FormUrlEncoded.xml" target="lib\netstandard2.0" />
     <file src="..\images\icon.png" target="images\" />
     <file src="..\LICENSE*" target="" />
+    <file src="..\README.md" target="" />
   </files>
 </package>

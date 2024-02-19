@@ -1,6 +1,6 @@
 # Release Notes
 
-## 1.1.0 - ???
+## 1.1.0 - ?
 
 Breaking changes:
 - (None)
@@ -10,7 +10,7 @@ New features:
 - Add handling of string collections to `List` property types in `FormUrlEncodedSerializer.Deserialize` method.
 
 Bug fixes / internal changes:
-- (None)
+- Add `README.md` to nuspec file.
 
 ## 1.0.0 - 17 June 2021
 
