@@ -73,6 +73,13 @@ namespace ByteDev.FormUrlEncoded
                         propertyValue = GetEnumNumberFromName(propertyValue);
                     }
 
+                    if (propertyInfo.HasValueConverterAttribute())
+                    {
+                        var valueConverter = Attribute.GetCustomAttributes(propertyInfo, typeof(FormUrlEncodedValueConverterAttribute)).FirstOrDefault() as FormUrlEncodedValueConverterAttribute;
+                        sb.AppendKeySequenceValue(propertyInfo.GetAttributeOrPropertyName(), valueConverter.ConvertToString(propertyValue), options);
+                        continue;
+                    }
+
                     if (propertyInfo.IsTypeList())
                     {
                         var sequence = propertyValue as IEnumerable;
@@ -137,6 +144,13 @@ namespace ByteDev.FormUrlEncoded
 
                 if (propertyInfo == null || propertyInfo.HasIgnoreAttribute())
                     continue;
+
+                if (propertyInfo.HasValueConverterAttribute())
+                {                    
+                    var valueConverter = Attribute.GetCustomAttributes(propertyInfo, typeof(FormUrlEncodedValueConverterAttribute)).FirstOrDefault() as FormUrlEncodedValueConverterAttribute;
+                    obj.SetPropertyValue(pair.Name, valueConverter.ConvertFromString(pair.Value));
+                    continue;
+                } 
 
                 if (propertyInfo.IsTypeList())
                     obj.SetPropertyValue(pair.Name, pair.Value.ToList(','));

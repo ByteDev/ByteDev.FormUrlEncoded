@@ -533,5 +533,31 @@ namespace ByteDev.FormUrlEncoded.UnitTests
                 Assert.That(result.Email, Is.Null);
             }
         }
+
+        [TestFixture]
+        public class Deserialze_ValueConverterAttribute
+        {
+            private System.Drawing.Color CorrectColor = System.Drawing.Color.LightSteelBlue;
+            
+            [Test]
+            public void WhenUsesValueConverter_ConvertValue()
+            {
+                string data = $"OfficeWallColor={CorrectColor.Name}";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyValueConverterAttribute>(data);
+
+                Assert.That(result.OfficeWallColor, Is.EqualTo(CorrectColor));
+            }
+
+            [Test]
+            public void WhenUsesValueConverterAndPropertyName_ConvertValue()
+            {
+                string data = $"OfficeColor={CorrectColor.Name}";
+
+                var result = FormUrlEncodedSerializer.Deserialize<TestDummyValueConverterAndNamedPropertyAttribute>(data);
+
+                Assert.That(result.OfficeWallColor, Is.EqualTo(CorrectColor));
+            }
+        }
     }
 }

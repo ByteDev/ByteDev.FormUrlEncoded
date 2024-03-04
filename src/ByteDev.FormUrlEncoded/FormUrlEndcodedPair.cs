@@ -15,8 +15,10 @@ namespace ByteDev.FormUrlEncoded
         {
             var pairArray = pair.Split('=');
 
+            // See if the (url)name is in the list of properties with PropertyName attribute list
             PropertyInfo attrProperty = propertiesWithAttr.GetByAttributeName(pairArray[0]);
 
+            // ...and then if so, pop it out there.
             if (attrProperty == null)
                 Name = UrlEncoder.Decode(pairArray[0], options);
             else
