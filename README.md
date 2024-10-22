@@ -41,6 +41,7 @@ The serializer supports:
 - Property attributes:
   - `FormUrlEncodedPropertyNameAttribute` which overrides the property name to use during serialization/deserialization.
   - `FormUrlEncodedIgnoreAttribute` which prevents a property from being used during serialization/deserialization.
+  - `FormUrlEncodedValueConverterAttribute` which can be extended to provide a custom type conversion during serialization/deserialization (e.g., to a bespoke string enumeration).
 
 ### Code Examples
 
@@ -60,6 +61,9 @@ public class Employee
 
     [FormUrlEncodedIgnore]
     public int PayGrade { get; set; }
+
+    [FormUrlColorValueConverter] // inherited from FormUrlEncodedValueConverterAttribute
+    public int OfficeWallColor { get; set; }
 }
 ```
 
@@ -71,18 +75,19 @@ var employee = new Employee
     Name = "John Smith",
     Age = 50,
     Email = "john@somewhere.com",
-    PayGrade = 5
+    PayGrade = 5,
+    OfficeWallColor = System.Drawing.Color.LightSteelBlue
 };
 
 string data = FormUrlEncodedSerializer.Serialize(employee);
 
-// data == "Name=John+Smith&Age=50&emailAddress=john%40somewhere.com"
+// data == "Name=John+Smith&Age=50&emailAddress=john%40somewhere.com&OfficeWallColor=LightSteelBlue"
 ```
 
 ```csharp
 // Deserialize a form URL encoded string to an object
 
-string data = "Name=John+Smith&Age=50&emailAddress=john%40somewhere.com&PayGrade=5";
+string data = "Name=John+Smith&Age=50&emailAddress=john%40somewhere.com&PayGrade=5&OfficeWallColor=LightSteelBlue";
 
 Employee employee = FormUrlEncodedSerializer.Deserialize<Employee>(data);
 
@@ -90,6 +95,7 @@ Employee employee = FormUrlEncodedSerializer.Deserialize<Employee>(data);
 // employee.Age == 50
 // employee.Email == "john@somewhere.com"
 // employee.PayGrade == 0
+// employee.OfficeWallColor == System.Drawing.Color.LightSteelBlue
 ```
 
 ---

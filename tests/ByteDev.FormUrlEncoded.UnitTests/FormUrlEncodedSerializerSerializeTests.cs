@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using ByteDev.FormUrlEncoded.UnitTests.TestObjects;
+﻿using ByteDev.FormUrlEncoded.UnitTests.TestObjects;
 using ByteDev.FormUrlEncoded.UnitTests.TestObjects.AttributeObjects;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace ByteDev.FormUrlEncoded.UnitTests
 {
@@ -465,6 +465,32 @@ namespace ByteDev.FormUrlEncoded.UnitTests
                 var result = FormUrlEncodedSerializer.Serialize(obj);
 
                 Assert.That(result, Is.EqualTo("Name=John"));
+            }
+        }
+
+        [TestFixture]
+        public class Serialze_ValueConverterAttribute
+        {
+            private System.Drawing.Color CorrectColor = System.Drawing.Color.LightSteelBlue;
+            
+            [Test]
+            public void WhenUsesValueConverter_ConvertValue()
+            {
+                var obj = new TestDummyValueConverterAttribute { OfficeWallColor = CorrectColor };
+
+                var result = FormUrlEncodedSerializer.Serialize(obj);
+
+                Assert.That(result, Is.EqualTo($"OfficeWallColor={CorrectColor.Name}"));
+            }
+
+            [Test]
+            public void WhenUsesValueConverterAndPropertyName_ConvertValue()
+            {
+                var obj = new TestDummyValueConverterAndNamedPropertyAttribute { OfficeWallColor = CorrectColor };
+
+                var result = FormUrlEncodedSerializer.Serialize(obj);
+
+                Assert.That(result, Is.EqualTo($"OfficeColor={CorrectColor.Name}"));
             }
         }
     }
