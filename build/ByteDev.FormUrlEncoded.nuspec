@@ -13,6 +13,7 @@
     <projectUrl>https://github.com/ByteDev/ByteDev.FormUrlEncoded</projectUrl>
     <icon>images\icon.png</icon>
     <license type="file">LICENSE</license>
+	<releaseNotes>Refer to https://github.com/ByteDev/ByteDev.FormUrlEncoded/blob/master/docs/RELEASE-NOTES.md on GitHub.</releaseNotes>
     <readme>README.md</readme>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
